@@ -68,6 +68,9 @@
                         <a href="{{ route('dashboard') }}" class="nav-link active">
                             <i class="fas fa-tachometer-alt me-2"></i> Dashboard
                         </a>
+                        <a href="{{ route('warga.index') }}" class="nav-link">
+                            <i class="fas fa-user me-2"></i> Data Warga
+                        </a>
                         <a href="{{ route('anggota-keluarga.index') }}" class="nav-link">
                             <i class="fas fa-users me-2"></i> Anggota Keluarga
                         </a>
