@@ -315,6 +315,14 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+        
+        // PRODUCTS :
+        [
+            'text' => 'MAnagement Products',
+            'url'  => '/products',
+            'icon' => 'fas fa-box',
+        ],
+        
         [
             'text' => 'blog',
             'url' => 'admin/blog',

@@ -1,4 +1,4 @@
-@extends('layouts.admin.app') 
+@extends('adminlte::page')
 
 @section('title', 'Tambah Keluarga KK')
 

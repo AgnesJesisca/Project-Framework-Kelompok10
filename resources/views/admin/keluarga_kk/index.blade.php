@@ -19,7 +19,7 @@
     <meta name="theme-color" content="#ffffff">
 
     <!-- Start CSS -->
-    @include('layouts.admin.css')    
+    @include('adminlte::page')    
     <!-- End CSS -->
 </head>
 

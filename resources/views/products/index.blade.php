@@ -30,7 +30,17 @@
                 @forelse($products as $item)
                     <tr>
                         <td>{{ $item->id }}</td>
-                        <td>@if($item->image)<img src="{{ asset('storage/' . $item->image) }}" alt="" width="60">@endif</td>
+                        <td>
+                            @if($item->image)
+                                <img src="{{ asset('storage/' . $item->image) }}" alt="" width="60" 
+                                     onerror="this.style.display='none';">
+                                <div style="font-size: 10px; color: blue;">
+                                    Debug: {{ $item->image }}
+                                </div>
+                            @else
+                                <span class="text-muted">No image</span>
+                            @endif
+                        </td>
                         <td>{{ $item->name }}</td>
                         <td>{{ $item->price }}</td>
                         <td>
@@ -44,7 +54,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="4">No data</td></tr>
+                    <tr><td colspan="5">No data</td></tr>
                 @endforelse
                 </tbody>
             </table>
