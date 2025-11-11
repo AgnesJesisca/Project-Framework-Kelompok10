@@ -21,3 +21,4 @@ Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard'
 Route::resource('anggota-keluarga', AnggotaKeluargaController::class);
 Route::resource('warga', WargaController::class);
 Route::resource('keluarga_kk', KeluargaKKController::class);
+Route::resource('products', \App\Http\Controllers\ProductController::class);
