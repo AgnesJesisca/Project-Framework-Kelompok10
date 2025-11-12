@@ -315,14 +315,26 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        
+
         // PRODUCTS :
         [
-            'text' => 'MAnagement Products',
+            'text' => 'Management Products',
             'url'  => '/products',
             'icon' => 'fas fa-box',
         ],
-        
+
+        [
+            'text' => 'Data Warga',
+            'url'  => '/warga',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
+        [
+            'text' => 'Data Keluarga',
+            'url'  => '/keluarga_kk',
+            'icon' => 'fas fa-fw fa-user',
+        ],
+
         [
             'text' => 'blog',
             'url' => 'admin/blog',

@@ -1,125 +1,182 @@
-<!--
+@extends('adminlte::page')
 
-=========================================================
-* Volt Pro - Premium Bootstrap 5 Dashboard
-=========================================================
+@section('title', 'Edit Data Keluarga KK')
 
-* Product Page: https://themesberg.com/product/admin-dashboard/volt-bootstrap-5-dashboard
-* Copyright 2021 Themesberg (https://www.themesberg.com)
-* License (https://themesberg.com/licensing)
+@section('content_header')
+    <h1>Edit Data Keluarga KK</h1>
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item">
+            <a href="{{ url('/') }}">
+                <i class="fas fa-fw fa-home"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item"><a href="{{ route('keluarga_kk.index') }}">Keluarga KK</a></li>
+        <li class="breadcrumb-item active">Edit</li>
+    </ol>
+@stop
 
-* Designed and coded by https://themesberg.com
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. Please contact us to request a removal.
-
--->
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Edit Data Keluarga KK</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-    <!-- Start CSS -->
-@include('adminlte::page')
-    <!-- End CSS -->
-</head>
-
-<body>
-    <!-- Start Sidebar -->
-    @include('layouts.admin.sidebar')
-    <!-- End Sidebar -->
-
-    <main class="content">
-        <!-- Start Header -->
-        @include('layouts.admin.header')
-        <!-- End Header -->
-
-        @extends('layouts.admin.app')
-
-        @section('content')
-        <!-- Start Main Content -->
-        <div class="py-4">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent mb-0">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('keluarga_kk.index') }}">
-                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0h6" />
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item"><a href="{{ route('keluarga_kk.index') }}">Keluarga KK</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit</li>
-                </ol>
-            </nav>
-
-            <div class="d-flex justify-content-between w-100 flex-wrap mb-3">
-                <div>
-                    <h1 class="h4">Edit Data Keluarga</h1>
-                    <p class="mb-0">Ubah data keluarga sesuai kebutuhan</p>
+@section('content')
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Edit Data Keluarga</h3>
+                    <p class="card-subtitle mb-0">Ubah data keluarga sesuai kebutuhan</p>
                 </div>
-            </div>
 
-            <div class="card border-0 shadow mb-4">
-                <div class="card-body">
-                    <form action="{{ route('keluarga_kk.update', $dataKeluarga_kk->kk_id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                <form action="{{ route('keluarga_kk.update', $dataKeluarga_kk->kk_id) }}" method="POST">
+                    @csrf
+                    @method('PUT')
 
-                        <div class="mb-3">
-                            <label for="kk_nomor" class="form-label">Nomor KK</label>
-                            <input type="text" name="kk_nomor" id="kk_nomor" class="form-control"
-                                value="{{ $dataKeluarga_kk->kk_nomor }}" required>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="kk_nomor">Nomor KK <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           name="kk_nomor"
+                                           id="kk_nomor"
+                                           class="form-control @error('kk_nomor') is-invalid @enderror"
+                                           value="{{ old('kk_nomor', $dataKeluarga_kk->kk_nomor) }}"
+                                           placeholder="Masukkan Nomor KK"
+                                           required>
+                                    @error('kk_nomor')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="kepala_keluarga_warga_id">ID Kepala Keluarga <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           name="kepala_keluarga_warga_id"
+                                           id="kepala_keluarga_warga_id"
+                                           class="form-control @error('kepala_keluarga_warga_id') is-invalid @enderror"
+                                           value="{{ old('kepala_keluarga_warga_id', $dataKeluarga_kk->kepala_keluarga_warga_id) }}"
+                                           placeholder="Masukkan ID Kepala Keluarga"
+                                           required>
+                                    @error('kepala_keluarga_warga_id')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label for="kepala_keluarga_warga_id" class="form-label">ID Kepala Keluarga</label>
-                            <input type="text" name="kepala_keluarga_warga_id" id="kepala_keluarga_warga_id"
-                                class="form-control" value="{{ $dataKeluarga_kk->kepala_keluarga_warga_id }}" required>
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="alamat" class="form-label">Alamat</label>
-                            <textarea name="alamat" id="alamat" class="form-control" rows="2" required>{{ $dataKeluarga_kk->alamat }}</textarea>
+                        <div class="form-group">
+                            <label for="alamat">Alamat <span class="text-danger">*</span></label>
+                            <textarea name="alamat"
+                                      id="alamat"
+                                      class="form-control @error('alamat') is-invalid @enderror"
+                                      rows="3"
+                                      placeholder="Masukkan Alamat Lengkap"
+                                      required>{{ old('alamat', $dataKeluarga_kk->alamat) }}</textarea>
+                            @error('alamat')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
                         </div>
 
                         <div class="row">
-                            <div class="col-md-6 mb-3">
-                                <label for="rt" class="form-label">RT</label>
-                                <input type="text" name="rt" id="rt" class="form-control"
-                                    value="{{ $dataKeluarga_kk->rt }}" required>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="rt">RT <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           name="rt"
+                                           id="rt"
+                                           class="form-control @error('rt') is-invalid @enderror"
+                                           value="{{ old('rt', $dataKeluarga_kk->rt) }}"
+                                           placeholder="Contoh: 001"
+                                           required>
+                                    @error('rt')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
                             </div>
-                            <div class="col-md-6 mb-3">
-                                <label for="rw" class="form-label">RW</label>
-                                <input type="text" name="rw" id="rw" class="form-control"
-                                    value="{{ $dataKeluarga_kk->rw }}" required>
-                            </div>
-                        </div>
 
-                        <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">Update</button>
-                            <a href="{{ route('keluarga_kk.index') }}" class="btn btn-secondary">Batal</a>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="rw">RW <span class="text-danger">*</span></label>
+                                    <input type="text"
+                                           name="rw"
+                                           id="rw"
+                                           class="form-control @error('rw') is-invalid @enderror"
+                                           value="{{ old('rw', $dataKeluarga_kk->rw) }}"
+                                           placeholder="Contoh: 002"
+                                           required>
+                                    @error('rw')
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
+                                    @enderror
+                                </div>
+                            </div>
                         </div>
-                    </form>
-                </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Update Data
+                        </button>
+                        <a href="{{ route('keluarga_kk.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-times"></i> Batal
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
-        <!-- End Main Content -->
-        @endsection
+    </div>
+@stop
 
-        <!-- Start Footer -->
-        @include('layouts.admin.footer')
-        <!-- End Footer -->
-    </main>
+@section('css')
+    <style>
+        .card-header {
+            border-bottom: 1px solid #dee2e6;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .card-subtitle {
+            font-size: 0.875rem;
+            color: #6c757d;
+        }
+        .text-danger {
+            color: #dc3545;
+        }
+    </style>
+@stop
 
-    <!-- Start JS -->
-    @include('layouts.admin.js')
-    <!-- End JS -->
-</body>
-</html>
+@section('js')
+    <script>
+        $(document).ready(function() {
+            // Validasi input numerik
+            $('#kk_nomor').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            $('#kepala_keluarga_warga_id').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            $('#rt, #rw').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Toast untuk notifikasi
+            @if(session('success'))
+                toastr.success('{{ session('success') }}');
+            @endif
+
+            @if($errors->any())
+                toastr.error('Terjadi kesalahan dalam pengisian form.');
+            @endif
+        });
+    </script>
+@stop
