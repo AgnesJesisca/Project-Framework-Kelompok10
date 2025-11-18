@@ -1,89 +1,51 @@
-@extends('adminlte::page')
-
-@section('title', 'Data Keluarga')
-
-@section('content_header')
-    <h1>Data Keluarga</h1>
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ url('/') }}"><i class="fas fa-fw fa-home"></i></a></li>
-        <li class="breadcrumb-item active">Keluarga</li>
-    </ol>
-@stop
-
+@extends('layouts.admin.app')
+@section('title','Data Keluarga')
 @section('content')
-   <!-- Start Main Content -->
-        <div class="py-4">
-            <nav aria-label="breadcrumb" class="d-none d-md-inline-block">
-                <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
-                    <li class="breadcrumb-item">
-                        <a href="#">
-                            <svg class="icon icon-xxs" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                            </svg>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item"><a href="#">Keluarga KK</a></li>
-                </ol>
-            </nav>
-            <div class="d-flex justify-content-between w-100 flex-wrap">
-                <div class="mb-3 mb-lg-0">
-                    <h1 class="h4">Data Keluarga</h1>
-                    <p class="mb-0">List data seluruh Keluarga</p>
-                </div>
-                <div>
-                    <a href="{{ route('keluarga_kk.create') }}" class="btn btn-success text-white">
-                        <i class="far fa-question-circle me-1"></i> Tambah Keluarga
-                    </a>
-                </div>
-            </div>
+<div class="px-6 py-6">
+    <div>
+        <nav class="text-sm text-white/80 mb-1">Pages / <span class="font-semibold text-white">Keluarga</span></nav>
+        <h1 class="text-2xl font-bold text-white">Data Keluarga</h1>
+    </div>
+
+    <div class="bg-white p-6 rounded-2xl shadow mt-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-xl">List Keluarga</h2>
+            <a href="{{ route('keluarga_kk.create') }}" class="bg-[#6c63ff] text-white px-4 py-2 rounded">+ Tambah Keluarga</a>
         </div>
 
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
-        <div class="row">
-            <div class="col-12 mb-4">
-                <div class="card border-0 shadow mb-4">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="table-keluarga_kk" class="table table-centered table-nowrap mb-0 rounded">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th class="border-0">Nomor KK</th>
-                                        <th class="border-0">Kepala Keluarga (ID)</th>
-                                        <th class="border-0">Alamat</th>
-                                        <th class="border-0">RT</th>
-                                        <th class="border-0">RW</th>
-                                        <th class="border-0 rounded-end">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($dataKeluarga_kk as $item)
-                                        <tr>
-                                            <td>{{ $item->kk_nomor }}</td>
-                                            <td>{{ $item->kepala_keluarga_warga_id }}</td>
-                                            <td>{{ $item->alamat }}</td>
-                                            <td>{{ $item->rt }}</td>
-                                            <td>{{ $item->rw }}</td>
-                                            <td>
-                                                <a href="{{ route('keluarga_kk.edit', $item->kk_id) }}" class="btn btn-info btn-sm">Edit</a>
-                                                <form action="{{ route('keluarga_kk.destroy', $item) }}" method="POST" style="display:inline">
-                                                    @csrf
-                                                    @method("DELETE")
-                                                    <button type="submit" class="btn btn-danger btn-sm">Hapus</button>
-                                                </form>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead><tr class="bg-gray-100">
+                    <th class="p-3 border">KK ID</th>
+                    <th class="p-3 border">Nomor KK</th>
+                    <th class="p-3 border">Kepala Keluarga</th>
+                    <th class="p-3 border">Alamat</th>
+                    <th class="p-3 border">Aksi</th>
+                </tr></thead>
+                <tbody>
+                    @forelse($data as $item)
+                    <tr class="border">
+                        <td class="p-3">{{ $item->kk_id }}</td>
+                        <td class="p-3">{{ $item->kk_nomor }}</td>
+                        <td class="p-3">{{ optional($item->kepalaKeluarga)->nama ?? '-' }}</td>
+                        <td class="p-3">{{ $item->alamat ?? '-' }}</td>
+                        <td class="p-3 flex gap-2">
+                            <a href="{{ route('keluarga_kk.show',$item) }}" class="px-3 py-1 bg-blue-500 text-white rounded">Lihat</a>
+                            <a href="{{ route('keluarga_kk.edit',$item) }}" class="px-3 py-1 bg-yellow-500 text-white rounded">Edit</a>
+                            <form action="{{ route('keluarga_kk.destroy',$item) }}" method="POST" onsubmit="return confirm('Hapus?')">
+                                @csrf @method('DELETE')
+                                <button class="px-3 py-1 bg-red-500 text-white rounded">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr><td colspan="5" class="p-4 text-center">Belum ada keluarga</td></tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        <!-- End Main Content -->
-@stop
+
+        <div class="mt-4">{{ $data->links() }}</div>
+    </div>
+</div>
+@endsection

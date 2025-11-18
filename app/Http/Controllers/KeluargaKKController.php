@@ -2,87 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Keluarga_kk;
+use App\Models\Warga;
+use Illuminate\Http\Request;
 
 class KeluargaKKController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-         $data['dataKeluarga_kk'] = Keluarga_kk::all();
-        return view('admin.keluarga_kk.index', $data);
+        $data = Keluarga_kk::with('kepalaKeluarga')->paginate(20);
+        return view('admin.keluarga_kk.index', compact('data'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        return view('admin.keluarga_kk.create');
+        $warga = Warga::orderBy('nama')->get();
+        return view('admin.keluarga_kk.create', compact('warga'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+   public function store(Request $request)
+{
+    $request->validate([
+        'kk_nomor' => 'required|unique:keluarga_kk,kk_nomor',
+        'kepala_keluarga_warga_id' => 'required',
+    ]);
+
+    Keluarga_kk::create($request->all());
+
+    return redirect()->route('keluarga_kk.index')
+                     ->with('success', 'KK Berhasil dibuat.');
+}
+
+
+    public function show($id)
     {
-        $data['kk_nomor'] = $request->kk_nomor;
-        $data['kepala_keluarga_warga_id'] = $request->kepala_keluarga_warga_id;
-        $data['alamat'] = $request->alamat;
-        $data['rt'] = $request->rt;
-        $data['rw'] = $request->rw;
-
-        Keluarga_kk::create($data);
-
-        return redirect()->route('keluarga_kk.index')->with('success', 'Penambahan Data Berhasil!');
+        $kk = Keluarga_kk::with('kepalaKeluarga', 'anggota.warga')->findOrFail($id);
+        return view('admin.keluarga_kk.show', compact('kk'));
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
+    public function edit($id)
     {
-        //
+        $kk = Keluarga_kk::findOrFail($id);
+        $warga = Warga::orderBy('nama')->get();
+        return view('admin.keluarga_kk.edit', compact('kk', 'warga'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function update(Request $request, $id)
     {
-         $data['dataKeluarga_kk'] = Keluarga_kk::findOrFail($id);
-        return view('admin.keluarga_kk.edit', $data);
+        $kk = Keluarga_kk::findOrFail($id);
+
+        $request->validate([
+            'kk_nomor' => 'required|unique:keluarga_kk,kk_nomor,' . $id . ',kk_id',
+        ]);
+
+        $kk->update($request->all());
+
+        return redirect()->route('keluarga_kk.index')->with('success', 'KK berhasil diupdate.');
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function destroy($id)
     {
-       $keluarga = Keluarga_kk::findOrFail($id);
-
-    $keluarga->kk_nomor = $request->kk_nomor;
-    $keluarga->kepala_keluarga_warga_id = $request->kepala_keluarga_warga_id;
-    $keluarga->alamat = $request->alamat;
-    $keluarga->rt = $request->rt;
-    $keluarga->rw = $request->rw;
-
-    $keluarga->save();
-
-    return redirect()->route('keluarga_kk.index')->with('success','Perubahan Data Berhasil!');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-    $keluarga = Keluarga_kk::findOrFail($id);
-    $keluarga->delete();
-    return redirect()->route('keluarga_kk.index')->with('success', 'Data berhasil dihapus');
-
+        Keluarga_kk::findOrFail($id)->delete();
+        return redirect()->route('keluarga_kk.index')->with('success', 'KK berhasil dihapus.');
     }
 }

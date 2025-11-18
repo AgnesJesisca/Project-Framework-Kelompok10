@@ -7,63 +7,58 @@ use Illuminate\Http\Request;
 
 class WargaController extends Controller
 {
-  public function index()
-{
-    $warga = Warga::orderBy('id', 'desc')->paginate(10); // ganti warga_id jadi id
-    return view('warga.index', compact('warga'));
-}
+    public function index()
+    {
+        $warga = Warga::latest()->paginate(20);
+        return view('admin.warga.index', compact('warga'));
 
+    }
 
     public function create()
     {
-        return view('warga.create');
+        return view('admin.warga.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
             'no_ktp' => 'required|unique:warga,no_ktp',
-            'nama' => 'required',
-            'jenis_kelamin' => 'required|in:L,P',
-            'agama' => 'nullable',
-            'pekerjaan' => 'nullable',
-            'telp' => 'nullable',
-            'email' => 'nullable|email',
+            'nama' => 'required|string',
         ]);
-
-        // Debug data request
-        // dd($request->all());
 
         Warga::create($request->all());
 
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan');
+        return redirect()->route('warga.index')->with('success', 'Data warga berhasil ditambahkan.');
     }
 
-
-    public function show(Warga $warga)
+    public function show($id)
     {
-        return view('warga.show', compact('warga'));
+        $warga = Warga::findOrFail($id);
+        return view('admin.warga.show', compact('warga'));
     }
 
-    public function edit(Warga $warga)
+    public function edit($id)
     {
-        return view('warga.edit', compact('warga'));
+        $warga = Warga::findOrFail($id);
+        return view('admin.warga.edit', compact('warga'));
     }
 
-    public function update(Request $request, Warga $warga)
-{
-    $request->validate([
-        'no_ktp' => 'required|unique:warga,no_ktp,' . $warga->id . ',id', // ganti warga_id jadi id
-        // ... validasi lainnya
-    ]);
-
-    $warga->update($request->all());
-    return redirect()->route('warga.index')->with('success', 'Data warga berhasil diperbarui');
-}
-
-    public function destroy(Warga $warga)
+    public function update(Request $request, $id)
     {
-        $warga->delete();
-        return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus');
+        $warga = Warga::findOrFail($id);
+
+        $request->validate([
+            'no_ktp' => 'required|unique:warga,no_ktp,' . $id . ',warga_id',
+        ]);
+
+        $warga->update($request->all());
+
+        return redirect()->route('warga.index')->with('success', 'Data warga berhasil diupdate.');
+    }
+
+    public function destroy($id)
+    {
+        Warga::findOrFail($id)->delete();
+        return redirect()->route('warga.index')->with('success', 'Data warga berhasil dihapus.');
     }
 }

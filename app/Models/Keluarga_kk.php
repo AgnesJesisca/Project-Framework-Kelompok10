@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Keluarga_kk extends Model
 {
     protected $table = 'keluarga_kk';
-    protected $primaryKey ='kk_id';
+    protected $primaryKey = 'kk_id';
+
     protected $fillable = [
         'kk_nomor',
         'kepala_keluarga_warga_id',
@@ -15,4 +16,14 @@ class Keluarga_kk extends Model
         'rt',
         'rw',
     ];
+
+    public function kepalaKeluarga()
+    {
+        return $this->belongsTo(Warga::class, 'kepala_keluarga_warga_id');
+    }
+
+    public function anggota()
+    {
+        return $this->hasMany(AnggotaKeluarga::class, 'kk_id');
+    }
 }
