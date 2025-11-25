@@ -7,12 +7,26 @@ use Illuminate\Http\Request;
 
 class WargaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $warga = Warga::latest()->paginate(20);
-        return view('admin.warga.index', compact('warga'));
+        $query = Warga::query();
 
+        // Search
+        if ($request->search) {
+            $query->where('nama', 'like', "%".$request->search."%")
+                ->orWhere('no_ktp', 'like', "%".$request->search."%");
+        }
+
+        // Filter jenis kelamin
+        if ($request->jk) {
+            $query->where('jenis_kelamin', $request->jk);
+        }
+
+        $warga = $query->latest()->paginate(20)->appends($request->all());
+
+        return view('admin.warga.index', compact('warga'));
     }
+
 
     public function create()
     {
