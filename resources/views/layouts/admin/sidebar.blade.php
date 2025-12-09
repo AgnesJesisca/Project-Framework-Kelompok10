@@ -3,7 +3,7 @@
     <!-- Logo -->
     <div class="flex items-center mb-10 gap-3 px-2">
         <img src="{{ asset('assets-admin/img/logo-ct-dark.png') }}" class="h-8" alt="Logo">
-        <span class="font-semibold text-[#5e72e4] text-lg">Argon Dashboard 2</span>
+        <span class="font-semibold text-[#5e72e4] text-lg">Bina Desa</span>
     </div>
 
     <!-- Menu -->
@@ -124,6 +124,18 @@
                     </li>
 
                 </ul>
+            </li>
+
+            {{-- USER (khusus Admin) --}}
+            <li>
+                <a href="{{ route('user.index') }}"
+                class="flex items-center gap-3 px-4 py-3 rounded-xl
+                        {{ request()->is('user*') 
+                            ? 'bg-[#5e72e4] text-white shadow-md font-semibold' 
+                            : 'hover:bg-gray-100 text-gray-700' }}">
+                    <i class="ni ni-circle-08 text-lg"></i>
+                    <span>User</span>
+                </a>
             </li>
 
         </ul>
