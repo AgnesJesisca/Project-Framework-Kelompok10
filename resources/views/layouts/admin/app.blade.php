@@ -2,38 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Dashboard')</title>
 
-    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet">
     <link rel="icon" href="{{ asset('assets-admin/img/favicon.png') }}">
 
     @include('layouts.admin.css')
 </head>
 
-<body class="font-sans min-h-screen bg-[#f8fafd] relative">
+<body class="font-sans bg-[#f8fafd]">
 
-    <!-- Background Biru -->
-    <div class="absolute w-full left-0 top-0 z-0 h-[260px] md:h-[330px] bg-[#6259ff] rounded-b-3xl overflow-hidden">
+<div class="flex h-screen overflow-hidden relative">
+
+    {{-- BACKGROUND BIRU (DIAM) --}}
+    <div class="absolute inset-x-0 top-0 h-[260px] md:h-[330px] bg-[#6259ff] rounded-b-3xl z-0">
         <img src="{{ asset('assets-admin/img/shapes/wave-up.svg') }}"
              class="w-full h-full object-cover opacity-40">
     </div>
 
-    <div class="flex min-h-screen relative z-10">
+    {{-- SIDEBAR (FIXED) --}}
+   <aside class="w-[240px] fixed top-6 bottom-6 left-6 z-40">
         @include('layouts.admin.sidebar')
+    </aside>
 
-        <div class="flex-1 flex flex-col">
+    {{-- MAIN AREA --}}
+    <div class="flex-1 ml-64 flex flex-col relative z-10">
+
+        {{-- HEADER (FIXED) --}}
+        <header class="h-20 fixed top-0 left-64 right-0 z-30">
             @include('layouts.admin.header')
+        </header>
 
-            <main class="flex-1 p-6 mt-4">
-                @yield('content')
-            </main>
+        {{-- CONTENT (SCROLL DI SINI AJA) --}}
+        <main class="mt-20 p-6 overflow-y-auto h-[calc(100vh-5rem)]">
+            @yield('content')
+        </main>
 
-            @include('layouts.admin.footer')
-        </div>
+         @include('layouts.admin.footer')
     </div>
+</div>
 
-    @include('layouts.admin.js')
+@include('layouts.admin.js')
 </body>
 </html>

@@ -56,7 +56,7 @@ Route::get('/about', function () {
 });
 
 
-// === PELANGGAN (pakai resource) ===
+// === Login ===
 Route::get('dashboard', [DashboardController::class, 'index'])
     ->middleware('checkislogin')
     ->name('dashboard');

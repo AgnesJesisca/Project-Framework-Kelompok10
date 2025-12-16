@@ -1,10 +1,7 @@
-<header class="w-full flex items-center justify-between px-6 py-4 text-white">
+<header class="h-full w-full flex items-center justify-between px-6 text-white">
 
     <div>
         <nav class="text-sm mb-1 opacity-80">
-            <span class="font-semibold">Bina Desa</span>
-        </nav>
-        <h1 class="text-2xl font-bold text-white">Portal Data dan Layanan Warga</h1>
     </div>
 
     <div class="flex items-center gap-4">
@@ -26,8 +23,13 @@
             <button class="flex items-center gap-2 focus:outline-none">
 
                 {{-- Avatar --}}
-                <img src="{{ Auth::user()->avatar ?? asset('assets-admin/img/team/profile-picture-3.jpg') }}"
-                    class="w-10 h-10 rounded-full border-2 border-white object-cover" />
+              <img
+                    src="{{ Auth::user()->profile_picture
+                        ? asset('storage/' . Auth::user()->profile_picture)
+                        : asset('assets-admin/img/team/profile-picture-3.jpg') }}"
+                    class="w-10 h-10 rounded-full border-2 border-white object-cover"
+                />
+
 
                 {{-- Name --}}
                 <span class="font-semibold text-white hidden md:block">

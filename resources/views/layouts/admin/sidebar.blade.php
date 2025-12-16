@@ -1,4 +1,7 @@
-<aside class="w-64 min-h-screen bg-white shadow-xl rounded-3xl flex flex-col p-6">
+<aside class="h-full bg-white/95 backdrop-blur
+             border border-gray-100 shadow-lg
+             rounded-3xl flex flex-col p-5 overflow-y-auto">
+
 
     <!-- Logo -->
     <div class="flex items-center mb-10 gap-3 px-2">
@@ -33,21 +36,6 @@
                     }} 
                 }">
 
-                <!-- Button -->
-                <button @click="open = !open"
-                        class="flex items-center justify-between w-full px-4 py-3 rounded-xl hover:bg-gray-100 text-gray-700">
-                    <div class="flex items-center gap-3">
-                        <i class="ni ni-collection text-lg text-purple-500"></i>
-                        <span>Data Penduduk</span>
-                    </div>
-
-                    <i class="ni ni-bold-down text-xs transition"
-                       :class="open ? 'rotate-180' : ''"></i>
-                </button>
-
-                <!-- Dropdown -->
-                <ul x-show="open" x-transition class="pl-10 pr-4 space-y-1 mt-2">
-
                 {{-- Data Warga --}}
                     <li>
                         <a href="{{ route('warga.index') }}"
@@ -72,6 +60,20 @@
                             <span>Data Keluarga</span>
                         </a>
                     </li>
+
+                    {{-- Anggota Keluarga --}}
+                    <li>
+                        <a href="{{ route('anggota_keluarga.index') }}"
+                        class="flex items-center gap-2 px-3 py-2 rounded-lg
+                                {{ request()->is('anggota_keluarga*') 
+                                    ? 'bg-[#5e72e4] text-white font-semibold shadow'
+                                    : 'hover:bg-gray-100 text-gray-700' }}">
+
+                            <i class="ni ni-bullet-list-67 text-sm"></i>
+                            <span>Anggota Keluarga</span>
+                        </a>
+                    </li>
+
 
                     
                   {{-- Kelahiran --}}
@@ -122,8 +124,6 @@
                             <span>Media</span>
                         </a>
                     </li>
-
-                </ul>
             </li>
 
             {{-- USER (khusus Admin) --}}
